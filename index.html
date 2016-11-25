@@ -5,21 +5,24 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>百度搜索智能提示</title>
 <style>
-#keywords {width: 300px; height: 30px; padding: 5px; border:1px solid #f90; font-size: 16px;}
-#relative {border:1px solid #f90; width: 310px; margin: 0;padding: 0; display: none;}
-li a { line-height: 30px; padding: 5px; text-decoration: none; color: black; display: block;}
-li a:hover{ background: #f90; color: white; }
+	#keywords {width: 300px; height: 30px; padding: 5px; border:1px solid #f90; font-size: 16px;}
+	#relative {border:1px solid #f90; width: 310px; margin: 0;padding: 0; display: none;}
+	li a { line-height: 30px; padding: 5px; text-decoration: none; color: black; display: block;}
+	li a:hover{ background: #f90; color: white; }
 </style>
 <script>
+//在这里通过myNeed函数解析数据
 function myNeed(data) {
-	
 	var relative = document.getElementById('relative');
 	var html = '';
+	//由上文知道，我们所需要的字段都在s里面存放着
 	if (data.s.length) {
 		relative.style.display = 'block';
+		//这里可以限制一下所需要联想词的个数，太多了也没必要
 		for (var i=0; i<data.s.length-5; i++) {
 			html += '<li><a target="_blank" href="http://www.baidu.com/s?wd='+data.s[i]+'">'+ data.s[i] +'</a></li>';
 		}
+		//渲染到页面里
 		relative.innerHTML = html;
 	} else {
 		relative.style.display = 'none';
@@ -27,13 +30,12 @@ function myNeed(data) {
 	
 }
 window.onload = function() {
-	
 	var keywords = document.getElementById('keywords');
 	var relative = document.getElementById('relative');
 
-	
+	//每当有键盘事件的时候都要有相对应的联想词
 	keywords.onkeyup = function() {
-		
+		//如果有输入内容的时候，就生成一个script标签获取数据
 		if ( this.value != '' ) {
 			var oScript = document.createElement('script');
 			oScript.src = 'http://www.baidu.com/su?wd='+this.value+'&cb=myNeed';
@@ -41,7 +43,6 @@ window.onload = function() {
 		} else {
 			relative.style.display = 'none';
 		}
-		
 	}
 	
 }
