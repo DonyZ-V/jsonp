@@ -1,0 +1,55 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>百度搜索智能提示</title>
+<style>
+#keywords {width: 300px; height: 30px; padding: 5px; border:1px solid #f90; font-size: 16px;}
+#relative {border:1px solid #f90; width: 310px; margin: 0;padding: 0; display: none;}
+li a { line-height: 30px; padding: 5px; text-decoration: none; color: black; display: block;}
+li a:hover{ background: #f90; color: white; }
+</style>
+<script>
+function myNeed(data) {
+	
+	var relative = document.getElementById('relative');
+	var html = '';
+	if (data.s.length) {
+		relative.style.display = 'block';
+		for (var i=0; i<data.s.length-5; i++) {
+			html += '<li><a target="_blank" href="http://www.baidu.com/s?wd='+data.s[i]+'">'+ data.s[i] +'</a></li>';
+		}
+		relative.innerHTML = html;
+	} else {
+		relative.style.display = 'none';
+	}
+	
+}
+window.onload = function() {
+	
+	var keywords = document.getElementById('keywords');
+	var relative = document.getElementById('relative');
+
+	
+	keywords.onkeyup = function() {
+		
+		if ( this.value != '' ) {
+			var oScript = document.createElement('script');
+			oScript.src = 'http://www.baidu.com/su?wd='+this.value+'&cb=myNeed';
+			document.body.appendChild(oScript);
+		} else {
+			relative.style.display = 'none';
+		}
+		
+	}
+	
+}
+</script>
+</head>
+
+<body>
+	<input type="text" id="keywords" />
+	<ul id="relative"></ul>
+</body>
+</html>
